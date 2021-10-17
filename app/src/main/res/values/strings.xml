@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Activity Tracker</string>
+    <string name="welcome_text">Пожалуй лучший фитнес трекер в ДВФУ</string>
 </resources>
