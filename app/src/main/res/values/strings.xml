@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Activity Tracker</string>
-    <string name="welcome_text">Пожалуй лучший фитнес трекер в ДВФУ</string>
+    <string name="welcome_text">Пожалуй, лучший фитнес трекер в ДВФУ</string>
+    <string name="dev_string">Созданный студентами 2-ого курса</string>
+    <string name="reg_string">Зарегистрироваться</string>
+    <string name="have_account_string">Уже есть аккаунт?</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>
