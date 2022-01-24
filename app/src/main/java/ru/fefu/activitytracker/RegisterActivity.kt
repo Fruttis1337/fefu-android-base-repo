@@ -33,5 +33,9 @@ class RegisterActivity : AppCompatActivity() {
         binding.acceptedPersonalData.movementMethod = LinkMovementMethod.getInstance()
         binding.acceptedPersonalData.highlightColor = 0
         binding.acceptedPersonalData.text = string
+
+        binding.myToolbar.setNavigationOnClickListener {
+            this.finish()
+        }
     }
 }
