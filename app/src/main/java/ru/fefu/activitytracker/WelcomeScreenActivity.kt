@@ -1,5 +1,6 @@
 package ru.fefu.activitytracker
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,11 @@ class WelcomeScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = WelcomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.regButton.setOnClickListener{
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.haveAnAccountMessage.setOnClickListener {
             Log.e("TAG", "onCreate: kefbgksdjfbpgijshdf", )
