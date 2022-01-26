@@ -3,6 +3,12 @@ package ru.fefu.activitytracker
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.util.Log
 import ru.fefu.activitytracker.databinding.WelcomeScreenBinding
 
 class WelcomeScreenActivity : AppCompatActivity() {
