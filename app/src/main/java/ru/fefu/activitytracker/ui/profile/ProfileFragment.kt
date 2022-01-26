@@ -1,3 +1,5 @@
+package ru.fefu.activitytracker.ui.profile
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +13,17 @@ class ProfileFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    fun newInstance(): ProfileFragment {
-        return ProfileFragment()
+    companion object {
+        fun newInstance(): ProfileFragment {
+            return ProfileFragment()
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = ActivityFragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
