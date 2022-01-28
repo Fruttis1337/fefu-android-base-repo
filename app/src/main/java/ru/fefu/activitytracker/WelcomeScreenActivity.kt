@@ -16,9 +16,15 @@ class WelcomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: WelcomeScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (App.INSTANCE.sharedPrefs.getString("token", null) !== null) {
+            val intent = Intent(this, TrackerActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+        }
         super.onCreate(savedInstanceState)
         binding = WelcomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.regButton.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)

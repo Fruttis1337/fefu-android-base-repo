@@ -24,6 +24,7 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
     private val binding get() = _binding!!
     private val activities = mutableListOf<ActivityData>()
     private val data_activities = mutableListOf<Any>()
+    private val adapter = ListAdapter(data_activities)
 
     private val map = mapOf(
         1 to "Январь", 2 to "Февраль", 3 to "Март",
@@ -64,8 +65,6 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
             data_activities.add(activity)
         }
     }
-
-    private val adapter = ListAdapter(data_activities)
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {

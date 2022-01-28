@@ -11,7 +11,7 @@ import ru.fefu.activitytracker.adapter.ListAdapter
 import ru.fefu.activitytracker.data.ActivityData
 import ru.fefu.activitytracker.databinding.MyActivityDetailsBinding
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class MyActivityInfo(private val info: ActivityData) : Fragment() {
     private var _binding: MyActivityDetailsBinding? = null
@@ -34,6 +34,7 @@ class MyActivityInfo(private val info: ActivityData) : Fragment() {
         return binding.root
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,13 +46,13 @@ class MyActivityInfo(private val info: ActivityData) : Fragment() {
         binding.startTime.text = startTime
         binding.finishTime.text = endTime
 
-        if (LocalDateTime.now().equals(info.endDate)) {
+        if (LocalDate.now().equals(info.endDate.toLocalDate())) {
             binding.date.text =
-                Duration.between(info.endDate, LocalDateTime.now()).toHours().toString() +
+                Duration.between(info.endDate, LocalDate.now()).toHours().toString() +
                         ListAdapter.getNoun(
                             Duration.between(
                                 info.endDate,
-                                LocalDateTime.now()
+                                LocalDate.now()
                             ).toHours(), " час", " часа", " часов"
                         ) +
                         " назад"
