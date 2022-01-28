@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.fefu.activitytracker.ActivityTabs
 import ru.fefu.activitytracker.MyActivityInfo
+import ru.fefu.activitytracker.NewActivityFragment
 import ru.fefu.activitytracker.R
 import ru.fefu.activitytracker.adapter.ListAdapter
 import ru.fefu.activitytracker.data.ActivityData
@@ -128,6 +130,17 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
         recycleView.layoutManager = LinearLayoutManager(requireContext())
         recycleView.adapter = adapter
         adapter.setItemClickListener { changeFragment(it) }
+        binding.startNewActivity.setOnClickListener{
+            val manager = activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
+            val navbar = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            navbar?.visibility = View.GONE
+            manager?.beginTransaction()?.apply {
+                manager.fragments.forEach(::hide)
+                add(R.id.activity_fragment_container, NewActivityFragment.newInstance(), NewActivityFragment.tag)
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 
 

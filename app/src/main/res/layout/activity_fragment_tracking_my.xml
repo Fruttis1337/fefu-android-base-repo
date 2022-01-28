@@ -14,12 +14,14 @@
         android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/start_new_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:layout_gravity="end|bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_fab" />
+        android:src="@drawable/ic_fab"
+        app:backgroundTint="#4B09F3"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

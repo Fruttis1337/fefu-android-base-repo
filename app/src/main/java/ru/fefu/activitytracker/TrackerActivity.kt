@@ -2,11 +2,12 @@ package ru.fefu.activitytracker
 
 import ru.fefu.activitytracker.ui.profile.ProfileFragment
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.fefu.activitytracker.databinding.ActivityTrackerBinding
 
-data class FragmentInfo (
+data class FragmentInfo(
     val buttonId: Int,
     val newInstance: () -> Fragment,
     val tag: String,
@@ -17,7 +18,7 @@ class TrackerActivity : AppCompatActivity() {
 
     private val fragments = listOf<FragmentInfo>(
         FragmentInfo(R.id.action_activity_tracker, ActivityTabs::newInstance, ActivityTabs.tag),
-        FragmentInfo(R.id.action_profile, ProfileFragment::newInstance, "profile")
+        FragmentInfo(R.id.action_profile, ProfileFragment::newInstance, ProfileFragment.tag)
     )
 
     private var activeFragment = fragments[0]
@@ -37,7 +38,6 @@ class TrackerActivity : AppCompatActivity() {
                 commit()
             }
         }
-
         if (notActive != null) {
             supportFragmentManager.beginTransaction().apply {
                 show(notActive)
@@ -78,8 +78,13 @@ class TrackerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val active = supportFragmentManager.fragments.firstOrNull{!it.isHidden}!!
+        val active = supportFragmentManager.fragments.firstOrNull { !it.isHidden }!!
         val childManager = active.childFragmentManager
+        when {
+            binding.bottomNavigationView.visibility == View.GONE && childManager.findFragmentByTag(
+                NewActivityFragment.tag
+            )?.isVisible == true -> binding.bottomNavigationView.visibility = View.VISIBLE
+        }
         when {
             supportFragmentManager.backStackEntryCount != 0 -> {
                 supportFragmentManager.popBackStack()

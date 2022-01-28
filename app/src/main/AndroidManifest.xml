@@ -11,6 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Activity">
         <activity
+            android:name=".ProfileChangeFragment"
+            android:exported="true" />
+        <activity
+            android:name=".StartedActivityFragment"
+            android:exported="true" />
+        <activity
+            android:name=".ProfileViewFragment"
+            android:exported="true" />
+        <activity
+            android:name=".NewActivityFragment"
+            android:exported="true" />
+        <activity
             android:name=".ActivityTabs"
             android:exported="true" />
         <activity
