@@ -2,7 +2,6 @@ package ru.fefu.activitytracker.ui.tracker
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,55 +9,21 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ru.fefu.activitytracker.ActivityTabs
-import ru.fefu.activitytracker.MyActivityInfo
-import ru.fefu.activitytracker.NewActivityFragment
-import ru.fefu.activitytracker.R
+import ru.fefu.activitytracker.*
 import ru.fefu.activitytracker.adapter.ListAdapter
 import ru.fefu.activitytracker.data.ActivityData
 import ru.fefu.activitytracker.data.DateData
+import ru.fefu.activitytracker.data.enum.ActivitiesEnum
 import ru.fefu.activitytracker.databinding.ActivityFragmentTrackingMyBinding
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_my) {
     private var _binding: ActivityFragmentTrackingMyBinding? = null
     private val binding get() = _binding!!
-    private lateinit var items: MutableList<ActivityData>
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    val activities = listOf<ActivityData>(
-        ActivityData(
-            "1000 м",
-            "Серфинг",
-            LocalDateTime.now(),
-            LocalDateTime.now(),
-        ),
-        ActivityData(
-            "1000 м",
-            "Серфинг",
-            LocalDateTime.of(2021, 10, 27, 11, 22),
-            LocalDateTime.of(2021, 10, 28, 12, 40),
-        ),
-        ActivityData(
-            "1000 м",
-            "Серфинг",
-            LocalDateTime.of(2021, 10, 27, 11, 22),
-            LocalDateTime.of(2021, 10, 28, 12, 40),
-        ),
-        ActivityData(
-            "1000 м",
-            "Серфинг",
-            LocalDateTime.of(2021, 10, 27, 11, 22),
-            LocalDateTime.of(2021, 10, 28, 12, 40),
-        ),
-        ActivityData(
-            "14.32 км",
-            "Велосипед",
-            LocalDateTime.of(2021, 10, 27, 7, 40),
-            LocalDateTime.of(2021, 10, 27, 10, 59),
-        )
-    )
+    private val activities = mutableListOf<ActivityData>()
+    private val data_activities = mutableListOf<Any>()
 
     private val map = mapOf(
         1 to "Январь", 2 to "Февраль", 3 to "Март",
@@ -76,8 +41,6 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
         return binding.root
     }
 
-    private val data_activities = mutableListOf<Any>()
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fill_date(activities: List<ActivityData>) {
         val cur = LocalDateTime.now()
@@ -92,13 +55,12 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
                     data_activities.add(date)
                 }
             } else {
-                if (date.Date != map.get(activity.endDate.monthValue) + ' ' + activity.endDate.year.toString() + "года") {
+                if (date.Date != map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года") {
                     date =
-                        DateData(map.get(activity.endDate.monthValue) + ' ' + activity.endDate.year.toString() + "года")
+                        DateData(map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года")
                     data_activities.add(date)
                 }
             }
-            Log.d("TAG", cur.hour.toString())
             data_activities.add(activity)
         }
     }
@@ -107,12 +69,13 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {
-            val manager = activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
+            val manager =
+                activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
-                add (
+                add(
                     R.id.activity_fragment_container,
-                    MyActivityInfo.newInstance(),
+                    MyActivityInfo.newInstance(data_activities[position] as ActivityData),
                     MyActivityInfo.tag,
                 )
                 addToBackStack(null)
@@ -125,18 +88,36 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fill_date(activities)
+        App.INSTANCE.db.activityDao().getAll().observe(viewLifecycleOwner) {
+            activities.clear()
+            data_activities.clear()
+            for(activity in it) {
+                val startDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(activity.dateStart), ZoneId.systemDefault())
+                val endDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(activity.dateEnd), ZoneId.systemDefault())
+                val type = ActivitiesEnum.values()[activity.type].type
+                val distance = (1..20).random().toString() + " км"
+                activities.add(ActivityData(distance, type, startDate, endDate))
+            }
+            fill_date(activities)
+            adapter.notifyDataSetChanged()
+        }
+
         val recycleView = binding.recyclerView
         recycleView.layoutManager = LinearLayoutManager(requireContext())
         recycleView.adapter = adapter
         adapter.setItemClickListener { changeFragment(it) }
-        binding.startNewActivity.setOnClickListener{
-            val manager = activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
+        binding.startNewActivity.setOnClickListener {
+            val manager =
+                activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             val navbar = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             navbar?.visibility = View.GONE
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
-                add(R.id.activity_fragment_container, NewActivityFragment.newInstance(), NewActivityFragment.tag)
+                add(
+                    R.id.activity_fragment_container,
+                    NewActivityFragment.newInstance(),
+                    NewActivityFragment.tag
+                )
                 addToBackStack(null)
                 commit()
             }

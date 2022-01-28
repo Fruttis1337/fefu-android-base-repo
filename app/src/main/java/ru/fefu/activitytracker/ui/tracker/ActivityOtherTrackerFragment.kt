@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.fefu.activitytracker.ActivityTabs
-import ru.fefu.activitytracker.MyActivityInfo
 import ru.fefu.activitytracker.R
+import ru.fefu.activitytracker.UserActivityInfo
 import ru.fefu.activitytracker.adapter.ListAdapter
 import ru.fefu.activitytracker.data.DateData
 import ru.fefu.activitytracker.data.UserActivityData
@@ -93,8 +93,8 @@ class ActivityOtherTrackerFragment : Fragment(R.layout.activity_fragment_trackin
                 manager.fragments.forEach(::hide)
                 add (
                     R.id.activity_fragment_container,
-                    MyActivityInfo.newInstance(),
-                    MyActivityInfo.tag,
+                    UserActivityInfo.newInstance(),
+                    UserActivityInfo.tag,
                 )
                 addToBackStack(null)
                 commit()

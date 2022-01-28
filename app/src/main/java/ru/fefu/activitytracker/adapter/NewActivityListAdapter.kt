@@ -12,13 +12,8 @@ import ru.fefu.activitytracker.data.UserActivityData
 import ru.fefu.activitytracker.R
 import ru.fefu.activitytracker.data.NewActivityData
 
-class NewActivityListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewActivityListAdapter(private val activities: List<NewActivityData>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var selected = -1
-
-    private var activities = listOf<NewActivityData>(
-        NewActivityData("Велосипед", false),
-        NewActivityData("Бег", false ),
-        NewActivityData("Шаг", false ))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.new_activity_item, parent, false)
@@ -45,7 +40,6 @@ class NewActivityListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 itemView.setBackgroundResource(R.drawable.border)
             }
             itemView.setOnClickListener {
-                Log.d("select", activities.toString())
                 activities[adapterPosition].isSelected = true
                 if (selected != -1 && selected != adapterPosition) {
                     activities[selected].isSelected = false

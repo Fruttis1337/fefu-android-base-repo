@@ -1,6 +1,6 @@
 package ru.fefu.activitytracker.ui.tracker
 
-import PagerAdapter
+import ru.fefu.activitytracker.PagerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
