@@ -93,7 +93,7 @@ class ActivityOtherTrackerFragment : Fragment(R.layout.activity_fragment_trackin
                 manager.fragments.forEach(::hide)
                 add (
                     R.id.activity_fragment_container,
-                    UserActivityInfo.newInstance(),
+                    UserActivityInfo(),
                     UserActivityInfo.tag,
                 )
                 addToBackStack(null)

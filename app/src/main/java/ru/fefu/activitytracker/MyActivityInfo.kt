@@ -17,13 +17,6 @@ class MyActivityInfo(private val info: ActivityData) : Fragment() {
     private var _binding: MyActivityDetailsBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance(info: ActivityData): MyActivityInfo {
-            return MyActivityInfo(info)
-        }
-
-        const val tag = "my_info"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +37,16 @@ class MyActivityInfo(private val info: ActivityData) : Fragment() {
 
         binding.startTime.text = startTime
         binding.finishTime.text = endTime
+
+        val duration_ = Duration.between(info.endDate, info.startDate);
+        var seconds: Long = Math.abs(duration_.getSeconds())
+        val hours = seconds / 3600
+        seconds -= hours * 3600
+        val minutes = seconds / 60
+        if (hours > 0) binding.duration.text = "%d ч %d мин".format(hours, minutes)
+        else binding.duration.text = "%d мин".format(minutes)
+
+
 
         if (LocalDateTime.now().equals(info.endDate)) {
             binding.date.text =

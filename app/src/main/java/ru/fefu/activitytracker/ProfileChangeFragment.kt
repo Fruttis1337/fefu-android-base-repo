@@ -12,9 +12,6 @@ class ProfileChangeFragment: Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(): ProfileChangeFragment{
-            return ProfileChangeFragment()
-        }
         const val tag = "profile_change"
     }
 

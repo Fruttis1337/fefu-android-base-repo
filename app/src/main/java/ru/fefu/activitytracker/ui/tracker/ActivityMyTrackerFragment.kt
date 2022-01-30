@@ -46,19 +46,21 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
         val cur = LocalDateTime.now()
         var date = DateData("")
         for (activity in activities) {
-            if (cur.year == activity.endDate.year &&
-                cur.monthValue == activity.endDate.monthValue &&
-                cur.dayOfMonth == activity.endDate.dayOfMonth
-            ) {
-                if (date.Date != "Сегодня") {
-                    date = DateData("Сегодня")
-                    data_activities.add(date)
+            when {
+                cur.year == activity.endDate.year &&
+                        cur.monthValue == activity.endDate.monthValue &&
+                        cur.dayOfMonth == activity.endDate.dayOfMonth -> {
+                    if (date.Date != "Сегодня") {
+                        date = DateData("Сегодня")
+                        data_activities.add(date)
+                    }
                 }
-            } else {
-                if (date.Date != map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года") {
-                    date =
-                        DateData(map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года")
-                    data_activities.add(date)
+                else -> {
+                    if (date.Date != map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года") {
+                        date =
+                            DateData(map[activity.endDate.monthValue] + ' ' + activity.endDate.year.toString() + " года")
+                        data_activities.add(date)
+                    }
                 }
             }
             data_activities.add(activity)
@@ -75,8 +77,8 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
                 manager.fragments.forEach(::hide)
                 add(
                     R.id.activity_fragment_container,
-                    MyActivityInfo.newInstance(data_activities[position] as ActivityData),
-                    MyActivityInfo.tag,
+                    MyActivityInfo(data_activities[position] as ActivityData),
+                    "my_info",
                 )
                 addToBackStack(null)
                 commit()
@@ -115,7 +117,7 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
                 manager.fragments.forEach(::hide)
                 add(
                     R.id.activity_fragment_container,
-                    NewActivityFragment.newInstance(),
+                    NewActivityFragment(),
                     NewActivityFragment.tag
                 )
                 addToBackStack(null)

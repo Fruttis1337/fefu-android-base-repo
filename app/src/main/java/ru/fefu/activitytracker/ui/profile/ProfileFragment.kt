@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction().apply {
-                add(R.id.profile_fragment_container, ProfileViewFragment.newInstance(), ProfileViewFragment.tag)
+                add(R.id.profile_fragment_container, ProfileViewFragment(), ProfileViewFragment.tag)
                 commit()
             }
         }

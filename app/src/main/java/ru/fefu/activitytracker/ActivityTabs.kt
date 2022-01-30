@@ -33,7 +33,7 @@ class ActivityTabs: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction().apply {
-                add(R.id.activity_fragment_container, ActivityTrackerFragment.newInstance())
+                add(R.id.activity_fragment_container, ActivityTrackerFragment())
                 commit()
             }
         }

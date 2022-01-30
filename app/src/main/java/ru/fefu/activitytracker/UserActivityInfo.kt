@@ -12,10 +12,6 @@ class UserActivityInfo : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(): UserActivityInfo {
-            return UserActivityInfo()
-        }
-
         const val tag = "user_info"
     }
 
