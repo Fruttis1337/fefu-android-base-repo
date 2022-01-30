@@ -12,9 +12,6 @@ class StartedActivityFragment: Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(): StartedActivityFragment {
-            return StartedActivityFragment()
-        }
         const val tag = "started_activity"
     }
 

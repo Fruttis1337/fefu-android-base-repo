@@ -16,11 +16,6 @@ class ActivityTrackerFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter : PagerAdapter
 
-    companion object{
-        fun newInstance(): ActivityTrackerFragment {
-            return ActivityTrackerFragment()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

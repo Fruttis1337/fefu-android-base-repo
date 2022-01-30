@@ -19,9 +19,6 @@ class NewActivityFragment: Fragment() {
     private lateinit var adapter: NewActivityListAdapter
 
     companion object {
-        fun newInstance(): NewActivityFragment {
-            return NewActivityFragment()
-        }
         const val tag = "new_activity"
     }
 
@@ -64,7 +61,7 @@ class NewActivityFragment: Fragment() {
                     manager.fragments.forEach(::hide)
                     add (
                         R.id.activity_fragment_container,
-                        StartedActivityFragment.newInstance(),
+                        StartedActivityFragment(),
                         StartedActivityFragment.tag,
                     )
                     addToBackStack(null)

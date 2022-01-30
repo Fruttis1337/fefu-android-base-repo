@@ -13,9 +13,6 @@ class ProfileViewFragment: Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(): ProfileViewFragment{
-            return ProfileViewFragment()
-        }
         const val tag = "profile_view"
     }
 
@@ -34,7 +31,7 @@ class ProfileViewFragment: Fragment() {
             val manager = activity?.supportFragmentManager?.findFragmentByTag(ProfileFragment.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
-                add (R.id.profile_fragment_container, ProfileChangeFragment.newInstance(), ProfileChangeFragment.tag)
+                add (R.id.profile_fragment_container, ProfileChangeFragment(), ProfileChangeFragment.tag)
                 addToBackStack(null)
                 commit()
             }

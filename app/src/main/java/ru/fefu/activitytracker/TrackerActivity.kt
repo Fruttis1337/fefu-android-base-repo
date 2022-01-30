@@ -65,7 +65,7 @@ class TrackerActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().apply {
                 add(
                     R.id.fragment_container_view,
-                    ActivityTabs.newInstance(),
+                    ActivityTabs(),
                     ActivityTabs.tag,
                 )
                 commit()
