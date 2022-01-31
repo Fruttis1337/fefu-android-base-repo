@@ -13,10 +13,14 @@ import ru.fefu.activitytracker.databinding.MyActivityDetailsBinding
 import java.time.Duration
 import java.time.LocalDateTime
 
-class MyActivityInfo(private val info: ActivityData) : Fragment() {
+class MyActivityInfo() : Fragment() {
     private var _binding: MyActivityDetailsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var info:ActivityData
 
+    fun setInfo(info:ActivityData){
+        this.info = info
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -15,6 +15,7 @@ import ru.fefu.activitytracker.data.ActivityData
 import ru.fefu.activitytracker.data.DateData
 import ru.fefu.activitytracker.data.enum.ActivitiesEnum
 import ru.fefu.activitytracker.databinding.ActivityFragmentTrackingMyBinding
+import java.nio.BufferUnderflowException
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -71,13 +72,15 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {
+            val fragment = MyActivityInfo()
+            fragment.setInfo(data_activities[position] as ActivityData)
             val manager =
                 activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
                 add(
                     R.id.activity_fragment_container,
-                    MyActivityInfo(data_activities[position] as ActivityData),
+                    fragment,
                     "my_info",
                 )
                 addToBackStack(null)

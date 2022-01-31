@@ -21,7 +21,6 @@ import java.time.LocalDateTime
 class ActivityOtherTrackerFragment : Fragment(R.layout.activity_fragment_tracking_other) {
     private var _binding: ActivityFragmentTrackingOtherBinding? = null
     private val binding get() = _binding!!
-    private lateinit var items: MutableList<UserActivityData>
 
     @RequiresApi(Build.VERSION_CODES.O)
     val activities = listOf<UserActivityData>(
@@ -88,12 +87,14 @@ class ActivityOtherTrackerFragment : Fragment(R.layout.activity_fragment_trackin
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {
+            val fragment = UserActivityInfo()
+            fragment.setInfo(data_activities[position] as UserActivityData)
             val manager = activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
                 add (
                     R.id.activity_fragment_container,
-                    UserActivityInfo(),
+                    fragment,
                     UserActivityInfo.tag,
                 )
                 addToBackStack(null)
