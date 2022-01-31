@@ -72,8 +72,14 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {
-            val fragment = MyActivityInfo()
-            fragment.setInfo(data_activities[position] as ActivityData)
+            val activityData = data_activities[position] as ActivityData
+            val fragment =
+                MyActivityInfo.newInstance(
+                    activityData.distance,
+                    activityData.activityType,
+                    activityData.startDate,
+                    activityData.endDate,
+                )
             val manager =
                 activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
@@ -96,9 +102,15 @@ class ActivityMyTrackerFragment : Fragment(R.layout.activity_fragment_tracking_m
         App.INSTANCE.db.activityDao().getAll().observe(viewLifecycleOwner) {
             activities.clear()
             data_activities.clear()
-            for(activity in it) {
-                val startDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(activity.dateStart), ZoneId.systemDefault())
-                val endDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(activity.dateEnd), ZoneId.systemDefault())
+            for (activity in it) {
+                val startDate = LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(activity.dateStart),
+                    ZoneId.systemDefault()
+                )
+                val endDate = LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(activity.dateEnd),
+                    ZoneId.systemDefault()
+                )
                 val type = ActivitiesEnum.values()[activity.type].type
                 val distance = (1..20).random().toString() + " км"
                 activities.add(ActivityData(distance, type, startDate, endDate))

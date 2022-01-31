@@ -87,8 +87,15 @@ class ActivityOtherTrackerFragment : Fragment(R.layout.activity_fragment_trackin
 
     private fun changeFragment(position: Int) {
         if (position in data_activities.indices) {
-            val fragment = UserActivityInfo()
-            fragment.setInfo(data_activities[position] as UserActivityData)
+            val userActivityData = data_activities[position] as UserActivityData
+            val fragment =
+                UserActivityInfo.newInstance(
+                    userActivityData.distance,
+                    userActivityData.activityType,
+                    userActivityData.startDate,
+                    userActivityData.endDate,
+                    userActivityData.user
+                )
             val manager = activity?.supportFragmentManager?.findFragmentByTag(ActivityTabs.tag)?.childFragmentManager
             manager?.beginTransaction()?.apply {
                 manager.fragments.forEach(::hide)
